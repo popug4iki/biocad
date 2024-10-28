@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: rgb(215, 214, 202);
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1 {
+    color: #d7d6ca;
+}
+
+html {
+    background-color: rgb(44, 46, 49);
+}
+
+main {
+    margin: 2rem;
+}
+
+.menu {
+    margin-top: 3rem;
+    height: 30rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 2rem;
+}
+
+.menu__input {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.input__file,
+.input-btn {
+    background: #3c3e41;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 10rem;
+    border-radius: 0.25rem;
+    border: none;
+
+}
+
+.input-btn {
+    cursor: pointer;
+}
+
+.input__range {
+    background: #3c3e41;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 8rem;
+    width: 15rem;
+    gap: 1rem;
+    border-radius: 0.25rem;
+}
+
+.procent {
+    font-size: 1.5rem;
+}
+
+.file-button {
+    display: flex;
+    align-items: center;
+}
+
+.input__file img {
+    background: none;
+    width: 1rem;
+    height: 1rem;
+    display: none;
+
+    cursor: pointer;
+}
+
+#file-input {
+    display: none;
+}
+
+.file-button {
+
+    padding: 1rem 0;
+    cursor: pointer;
+}
+
+.file-button__text {
+    width: 7rem;
+    max-height: 1.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.menu__input {
+    width: 30rem;
+    display: flex;
+    align-items: center;
+}
+
+
+.menu__output {
+    width: 40rem;
+    height: 30rem;
+    background: #3c3e41;
+    border-radius: 0.25rem;
+}
+
+.menu__output__text {
+    padding: 1rem;
+    max-width: 40rem;
+    width: 40rem;
+    height: 29rem;
+    max-height: 29rem;
+
+    overflow-y: scroll;
+}
+
+
+.switch {
+    background: #3c3e41;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 10rem;
+    border-radius: 0.25rem;
+
+    cursor: pointer;
+}
+
+.show {
+    display: none !important;
+}
+
+.input__text textarea {
+    background: #3c3e41;
+    border: none;
+    width: 28rem;
+    height: 10rem;
+    overflow-y: scroll;
+    overflow-wrap: anywhere;
+    padding: 1rem;
+    resize: none;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+}

@@ -1,11 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Суммаризатор статей</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="script.js" defer></script>
 </head>
+
 <body>
-    <h1>Hello</h1>
+    <main>
+        <h1>Суммаризатор статей</h1>
+
+        <div action="" class="menu">
+            <form class="menu__input" action="POST">
+
+                <div class="switch" onclick="togglePdf(this)">Ввести текст</div>
+                <div class="input__file">
+                    <input type="file" id="file-input" accept=".pdf">
+                    <label for="file-input" class="file-button">
+                        <span class="file-button__text"> Выбрать PDF</span>
+                    </label>
+                    <img src="close.svg" class="close" onclick="resetFile()">
+                </div>
+                <div class="input__text show">
+                    <textarea spellcheck="false" id="input__text" placeholder="Ваш текст"></textarea>
+                </div>
+                <div class="input__range">
+                    <span>% Сжатия текста</span>
+                    <span class="procent">100%</span>
+                    <input type="range" id="range-input" min=0 max=100 value=100 oninput="changeProcent()">
+                </div>
+
+                <button class="input-btn">Суммиризовать</button>
+            </form>
+
+            <form action="GET" class="menu__output">
+                <div class="menu__output__text">
+
+                </div>
+
+            </form>
+        </div>
+    </main>
 </body>
+
 </html>
