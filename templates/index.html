@@ -5,30 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Суммаризатор статей</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="static/style.css">
+    <script src="scripts/script.js" defer></script>
 </head>
 
 <body>
     <main>
         <h1>Суммаризатор статей</h1>
-
-        <div action="" class="menu">
+        <div class="menu">
             <form class="menu__input" action="POST">
+                <label class="switch">
+                    <input type="checkbox" id="toggle-input" onclick="toggleMode(this)">
+                    <span class="slider"></span>
+                    <span class="switch-text">Ввести текст / Выбрать PDF</span>
+                </label>
 
-                <div class="switch" onclick="togglePdf(this)">Ввести текст</div>
-                <div class="input__file">
+                <div class="input__file show">
                     <input type="file" id="file-input" accept=".pdf">
                     <label for="file-input" class="file-button">
-                        <span class="file-button__text"> Выбрать PDF</span>
+                        <span class="file-button__text">Выбрать PDF</span>
                     </label>
-                    <img src="close.svg" class="close" onclick="resetFile()">
+                    <img src="static/close.svg" class="close" onclick="resetFile()">
                 </div>
-                <div class="input__text show">
+
+                <div class="input__text">
                     <textarea spellcheck="false" id="input__text" placeholder="Ваш текст"></textarea>
                 </div>
+
                 <div class="input__range">
                     <span>% Сжатия текста</span>
                     <span class="procent">100%</span>
@@ -39,10 +42,7 @@
             </form>
 
             <form action="GET" class="menu__output">
-                <div class="menu__output__text">
-
-                </div>
-
+                <div class="menu__output__text"></div>
             </form>
         </div>
     </main>

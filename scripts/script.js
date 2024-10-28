@@ -1,5 +1,3 @@
-
-
 document.querySelector('#file-input').addEventListener('change', (event) => {
     let input = event.target;
     console.log(input)
@@ -38,16 +36,16 @@ function changeProcent() {
     proc.innerHTML = value + '%';
 }
 
-function togglePdf(elem) {
-    if (elem.textContent == "Ввести текст") {
-        elem.textContent = "Выбрать PDF"
+function toggleMode(checkbox) {
+    const textInput = document.querySelector('.input__text');
+    const fileInput = document.querySelector('.input__file');
+
+    if (checkbox.checked) {
+        fileInput.classList.remove('show');
+        textInput.classList.add('show');
     } else {
-        elem.textContent = "Ввести текст"
+        textInput.classList.remove('show');
+        fileInput.classList.add('show');
     }
-
-    document.querySelector(".input__file").classList.toggle("show");
-    document.querySelector(".input__text").classList.toggle("show");
-
-    resetFile()
-    document.querySelector(".input__text").querySelector('textarea').value = "";
 }
+
