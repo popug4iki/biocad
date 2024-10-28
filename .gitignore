@@ -163,6 +163,10 @@ cython_debug/
 
 data/
 
-exp/
+exp_bart/
+exp_t5/
 
-results/
+results_bart/
+results_t5/
+
+.vscode/

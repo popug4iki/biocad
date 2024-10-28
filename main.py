@@ -5,8 +5,8 @@ import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model = transformers.AutoModelForSeq2SeqLM.from_pretrained("./exp/model").to(device)
-tokenizer = transformers.AutoTokenizer.from_pretrained("./exp/tokenizer")
+model = transformers.AutoModelForSeq2SeqLM.from_pretrained("./exp_bart/model").to(device)
+tokenizer = transformers.AutoTokenizer.from_pretrained("./exp_bart/tokenizer")
 
 
 def chunk_text(text, tokenizer, max_length=512):
