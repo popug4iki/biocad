@@ -1,0 +1,7 @@
+datasets==3.0.2
+evaluate==0.4.3
+Flask==3.0.3
+langdetect==1.0.9
+pandas==2.2.3
+torch==2.4.1+cu118
+transformers==4.45.2
