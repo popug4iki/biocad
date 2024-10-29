@@ -1,5 +1,6 @@
 datasets==3.0.2
 evaluate==0.4.3
+fitz==0.0.1.dev2
 Flask==3.0.3
 langdetect==1.0.9
 pandas==2.2.3
