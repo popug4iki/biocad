@@ -7,13 +7,14 @@
     <title>Суммаризатор статей</title>
     <link rel="stylesheet" href="static/style.css">
     <script src="scripts/script.js" defer></script>
+    <link rel="icon" type="image/png" href="static/icon.png" />
 </head>
 
 <body>
     <main>
         <h1>Суммаризатор статей</h1>
         <div class="menu">
-            <form class="menu__input" action="POST">
+            <form class="menu__input" action="POST" onsubmit="handleFormSubmit(event)">
                 <label class="switch">
                     <input type="checkbox" id="toggle-input" onclick="toggleMode(this)">
                     <span class="slider"></span>
@@ -38,12 +39,17 @@
                     <input type="range" id="range-input" min=0 max=100 value=100 oninput="changeProcent()">
                 </div>
 
-                <button class="input-btn">Суммиризовать</button>
+                <button type="submit" class="input-btn">Суммиризовать</button>
             </form>
 
             <form action="GET" class="menu__output">
-                <div class="menu__output__text"></div>
+                <div class="menu__output__text" id="output-panel"></div>
+                <div class="loading-spinner" id="loading-spinner" style="display: none;"></div>
             </form>
+        </div>
+
+        <div id="overlay" class="overlay" style="display: none;">
+            <div class="loading-spinner"></div>
         </div>
     </main>
 </body>
