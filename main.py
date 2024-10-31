@@ -1,8 +1,9 @@
 from flask import Flask, render_template, send_from_directory, request, make_response, jsonify
 import transformers
 import torch
-import fitz
+import PyPDF2
 import re
+import io
 
 
 def format_text(text):
@@ -83,8 +84,13 @@ def api():
                 return make_response(jsonify({"error": "Файл не загружен"}), 400)
 
             pdf_data = file.read()
-            pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
-            raw = "".join(page.get_text() for page in pdf_document)
+            pdf_file = io.BytesIO(pdf_data)
+            pdf_reader = PyPDF2.PdfReader(pdf_file)
+            raw = ""
+            for page_num in range(len(pdf_reader.pages)):
+                page = pdf_reader.pages[page_num]
+                raw += page.extract_text() or ""
+
             raw = remove_duplicates(raw)
 
             if not raw:
@@ -129,4 +135,4 @@ def api():
         return make_response(jsonify({"error": "Ошибка при обработке запроса"}), 500)
 
 
-app.run(host='127.0.0.1', debug=True)
+app.run(host='127.0.0.1', debug=False)
