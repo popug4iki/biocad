@@ -43,39 +43,52 @@ async function handleFormSubmit(event) {
     event.preventDefault();
 
     const fileInput = document.querySelector('#file-input');
+    const textInput = document.querySelector('#input__text');
     const outputPanel = document.getElementById('output-panel');
     const overlay = document.getElementById('overlay');
     const rangeInput = document.querySelector('#range-input');
     const file = fileInput.files[0];
+    const sourceId = file ? '1' : '0';
+    const formData = new FormData();
 
-    if (file && file.type === "application/pdf") {
-        const formData = new FormData();
+    formData.append('percentage', rangeInput.value);
+
+    if (sourceId === '1' && file.type === "application/pdf") {
         formData.append('file', file);
-        formData.append('percentage', rangeInput.value);
-
-        outputPanel.innerHTML = "Отправка файла...";
-        overlay.style.display = "flex";
-
-        try {
-            const response = await fetch('/api', {
-                method: 'POST',
-                body: formData
-            });
-
-            overlay.style.display = "none";
-
-            if (response.ok) {
-                const result = await response.json();
-                outputPanel.innerHTML = result.result || "Файл успешно обработан";
-            } else {
-                outputPanel.innerHTML = "Ошибка при обработке файла на сервере";
-            }
-        } catch (error) {
-            overlay.style.display = "none";
-            outputPanel.innerHTML = "Ошибка сети или сервера";
-            console.error("Ошибка:", error);
+    } else if (sourceId === '0') {
+        const text = textInput.value.trim();
+        if (!text) {
+            outputPanel.innerHTML = "Введите текст для суммаризации";
+            return;
         }
+        formData.append('text', text);
     } else {
-        outputPanel.innerHTML = "Пожалуйста, выберите PDF файл";
+        outputPanel.innerHTML = "Пожалуйста, выберите PDF файл или введите текст";
+        return;
+    }
+
+    formData.append('source-id', sourceId);
+
+    outputPanel.innerHTML = "Отправка данных...";
+    overlay.style.display = "flex";
+
+    try {
+        const response = await fetch('/api', {
+            method: 'POST',
+            body: formData
+        });
+
+        overlay.style.display = "none";
+
+        if (response.ok) {
+            const result = await response.json();
+            outputPanel.innerHTML = result.result || "Данные успешно обработаны";
+        } else {
+            outputPanel.innerHTML = "Ошибка при обработке данных на сервере";
+        }
+    } catch (error) {
+        overlay.style.display = "none";
+        outputPanel.innerHTML = "Ошибка сети или сервера";
+        console.error("Ошибка:", error);
     }
 }

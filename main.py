@@ -61,41 +61,72 @@ def scripts(path):
 
 @app.route('/api', methods=['POST'])
 def api():
-    file = request.files.get('file')
-    percentage = int(request.form.get('percentage')) / 100
+    source_id = request.form.get(
+        'source-id') or (request.json.get('source-id') if request.is_json else None)
+    percentage = request.form.get('percentage') or (
+        request.json.get('percentage') if request.is_json else None)
 
-    if not file:
-        return make_response(jsonify({"error": "Файл не загружен"}), 400)
+    if source_id not in ['0', '1']:
+        return make_response(jsonify({"error": "Неверный source-id"}), 400)
 
     try:
-        pdf_data = file.read()
+        percentage = int(percentage) / 100 if percentage is not None else 1.0
+    except ValueError:
+        return make_response(jsonify({"error": "Неверное значение percentage"}), 400)
 
-        pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
+    all_chunks = []
 
-        raw = "".join(page.get_text() for page in pdf_document)
-        raw = remove_duplicates(raw)
+    try:
+        if source_id == '1':
+            file = request.files.get('file')
+            if not file:
+                return make_response(jsonify({"error": "Файл не загружен"}), 400)
 
-        if not raw:
-            return make_response(jsonify({"error": "Текст не был извлечен из PDF"}), 400)
+            pdf_data = file.read()
+            pdf_document = fitz.open(stream=pdf_data, filetype="pdf")
+            raw = "".join(page.get_text() for page in pdf_document)
+            raw = remove_duplicates(raw)
 
-        all_chunks = []
-        chunks = chunk_text(raw, tokenizer)
+            if not raw:
+                return make_response(jsonify({"error": "Текст не был извлечен из PDF"}), 400)
 
-        for chunk in chunks:
-            inputs = {'input_ids': torch.tensor([chunk]).to(device)}
-            outputs = model.generate(
-                **inputs, max_length=int(percentage * len(chunk)))
-            generated_text = tokenizer.decode(
-                outputs[0], skip_special_tokens=True)
-            all_chunks.append(generated_text)
+            chunks = chunk_text(raw, tokenizer)
+            for chunk in chunks:
+                inputs = {'input_ids': torch.tensor([chunk]).to(device)}
+                outputs = model.generate(
+                    **inputs, max_length=int(percentage * len(chunk))
+                )
+                generated_text = tokenizer.decode(
+                    outputs[0], skip_special_tokens=True)
+                all_chunks.append(generated_text)
+
+        elif source_id == '0':
+            if request.is_json:
+                data = request.get_json()
+                text = data.get('text', "")
+            else:
+                text = request.form.get('text', "")
+
+            if not text:
+                return make_response(jsonify({"error": "Текст не был предоставлен"}), 400)
+
+            text = remove_duplicates(text)
+            chunks = chunk_text(text, tokenizer)
+            for chunk in chunks:
+                inputs = {'input_ids': torch.tensor([chunk]).to(device)}
+                outputs = model.generate(
+                    **inputs, max_length=int(percentage * len(chunk))
+                )
+                generated_text = tokenizer.decode(
+                    outputs[0], skip_special_tokens=True)
+                all_chunks.append(generated_text)
 
         formatted_text = format_text(" ".join(all_chunks))
-
         return make_response(jsonify({"result": capitalize_sentences(formatted_text)}), 200)
 
     except Exception as e:
         print("Ошибка:", e)
-        return make_response(jsonify({"error": "Ошибка при обработке файла"}), 500)
+        return make_response(jsonify({"error": "Ошибка при обработке запроса"}), 500)
 
 
 app.run(host='127.0.0.1', debug=True)
