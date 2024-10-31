@@ -100,7 +100,7 @@ def api():
             for chunk in chunks:
                 inputs = {'input_ids': torch.tensor([chunk]).to(device)}
                 outputs = model.generate(
-                    **inputs, max_length=int(percentage * len(chunk))
+                    **inputs, max_length=max(20, int(percentage * len(chunk)))
                 )
                 generated_text = tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
@@ -121,7 +121,7 @@ def api():
             for chunk in chunks:
                 inputs = {'input_ids': torch.tensor([chunk]).to(device)}
                 outputs = model.generate(
-                    **inputs, max_length=int(percentage * len(chunk))
+                    **inputs, max_length=max(20, int(percentage * len(chunk)))
                 )
                 generated_text = tokenizer.decode(
                     outputs[0], skip_special_tokens=True)
