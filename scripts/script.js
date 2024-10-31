@@ -44,27 +44,30 @@ async function handleFormSubmit(event) {
 
     const fileInput = document.querySelector('#file-input');
     const textInput = document.querySelector('#input__text');
+    const toggleInput = document.querySelector('#toggle-input');
     const outputPanel = document.getElementById('output-panel');
     const overlay = document.getElementById('overlay');
     const rangeInput = document.querySelector('#range-input');
-    const file = fileInput.files[0];
-    const sourceId = file ? '1' : '0';
     const formData = new FormData();
 
     formData.append('percentage', rangeInput.value);
 
-    if (sourceId === '1' && file.type === "application/pdf") {
+    const sourceId = toggleInput.checked ? '1' : '0';
+
+    if (sourceId === '1') {
+        const file = fileInput.files[0];
+        if (!file || file.type !== "application/pdf") {
+            outputPanel.innerHTML = "Пожалуйста, выберите PDF файл";
+            return;
+        }
         formData.append('file', file);
-    } else if (sourceId === '0') {
+    } else {
         const text = textInput.value.trim();
         if (!text) {
             outputPanel.innerHTML = "Введите текст для суммаризации";
             return;
         }
         formData.append('text', text);
-    } else {
-        outputPanel.innerHTML = "Пожалуйста, выберите PDF файл или введите текст";
-        return;
     }
 
     formData.append('source-id', sourceId);
