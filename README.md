@@ -150,7 +150,8 @@ $$BLEU = BP * precision$$
 
 ### 3. Создание прототипа web-сервиса
 
-![Пример работы](img/vid.mp4)
+![Пример работы](https://github.com/user-attachments/assets/617b9b1d-70ce-4b65-85e5-3bce28995e0b]
+
 Пример работы
 
 #### Frontend
